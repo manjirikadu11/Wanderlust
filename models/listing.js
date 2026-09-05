@@ -1,4 +1,3 @@
-const { ref } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./reviews.js");
@@ -8,6 +7,7 @@ const listingSchema = new Schema({
     type: String,
     required: true,
   },
+
   description: String,
 
   image: {
@@ -15,10 +15,12 @@ const listingSchema = new Schema({
       type: String,
       default: "listingimage",
     },
+
     url: {
       type: String,
       default:
         "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+
       set: (v) =>
         v === ""
           ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
@@ -32,7 +34,13 @@ const listingSchema = new Schema({
   },
 
   location: String,
+
   country: String,
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 
   reviews: [
     {
@@ -49,4 +57,5 @@ listingSchema.post("findOneAndDelete", async (listing) => {
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
+
 module.exports = Listing;
